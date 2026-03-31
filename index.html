@@ -7,7 +7,6 @@
       font-family: Arial;
       background: #f0f2f5;
       margin: 0;
-      padding: 0;
     }
     .header {
       background: #1877f2;
@@ -17,37 +16,35 @@
       font-size: 20px;
     }
     .container {
-      max-width: 500px;
-      margin: auto;
-      padding: 10px;
+      padding: 20px;
     }
     .post-box {
       background: white;
       padding: 10px;
-      border-radius: 8px;
       margin-bottom: 10px;
+      border-radius: 5px;
     }
-    input, button {
-      padding: 8px;
-      margin-top: 5px;
+    textarea {
       width: 100%;
+      height: 60px;
+    }
+    button {
+      margin-top: 5px;
+      padding: 8px;
+      background: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 3px;
     }
     .post {
       background: white;
       padding: 10px;
       margin-top: 10px;
-      border-radius: 8px;
-    }
-    .btn {
-      margin-top: 5px;
-      background: #1877f2;
-      color: white;
-      border: none;
-      padding: 5px;
-      cursor: pointer;
+      border-radius: 5px;
     }
   </style>
 </head>
+
 <body>
 
 <div class="header">Mini Facebook</div>
@@ -55,7 +52,7 @@
 <div class="container">
 
   <div class="post-box">
-    <input id="postInput" placeholder="What's on your mind?">
+    <textarea id="postText" placeholder="What's on your mind?"></textarea>
     <button onclick="addPost()">Post</button>
   </div>
 
@@ -65,36 +62,27 @@
 
 <script>
 function addPost() {
-  let text = document.getElementById("postInput").value;
+  var text = document.getElementById("postText").value;
   if(text === "") return;
 
-  let post = document.createElement("div");
-  post.className = "post";
+  var postDiv = document.createElement("div");
+  postDiv.className = "post";
 
-  post.innerHTML = `
+  postDiv.innerHTML = `
     <p>${text}</p>
-    <button class="btn" onclick="likePost(this)">Like (0)</button>
-    <input placeholder="Comment..." onkeypress="addComment(event, this)">
-    <div></div>
+    <button onclick="likePost(this)">Like</button>
+    <span> 0 Likes</span>
   `;
 
-  document.getElementById("posts").prepend(post);
-  document.getElementById("postInput").value = "";
+  document.getElementById("posts").prepend(postDiv);
+  document.getElementById("postText").value = "";
 }
 
 function likePost(btn) {
-  let count = parseInt(btn.innerText.match(/\d+/)[0]);
+  var span = btn.nextElementSibling;
+  var count = parseInt(span.innerText);
   count++;
-  btn.innerText = "Like (" + count + ")";
-}
-
-function addComment(e, input) {
-  if(e.key === "Enter") {
-    let comment = document.createElement("p");
-    comment.innerText = input.value;
-    input.nextElementSibling.appendChild(comment);
-    input.value = "";
-  }
+  span.innerText = count + " Likes";
 }
 </script>
 
