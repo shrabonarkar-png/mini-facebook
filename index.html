@@ -2,56 +2,96 @@
 <html>
 <head>
 <title>Mini Facebook</title>
+
 <style>
-body { font-family: Arial; background:#f0f2f5; }
-.box { background:#fff; padding:15px; margin:10px; border-radius:10px; }
-button { padding:5px 10px; margin-top:5px; }
+body {
+  font-family: Arial;
+  background: #f0f2f5;
+}
+
+.box {
+  background: white;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+h2 {
+  color: #1877f2;
+}
+
+button {
+  padding: 5px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  background: #1877f2;
+  color: white;
+}
+
+.deleteBtn {
+  background: red;
+  margin-left: 5px;
+}
 </style>
+
 </head>
+
 <body>
 
 <div class="box">
-<h3>Mini Facebook 😎</h3>
-<input id="postInput" placeholder="What's on your mind?" style="width:80%">
-<button onclick="addPost()">Post</button>
+  <h2>Mini Facebook 😎</h2>
+  <input id="postInput" placeholder="What's on your mind?" style="width:80%">
+  <button onclick="addPost()">Post</button>
 </div>
 
 <div id="posts"></div>
 
 <script>
+
 function addPost(){
-let text = document.getElementById("postInput").value;
-if(text==="") return;
+  let text = document.getElementById("postInput").value;
+  if(text=="") return;
 
-let post = document.createElement("div");
-post.className = "box";
+  let post = document.createElement("div");
+  post.className = "box";
 
-post.innerHTML = `
-<p>${text}</p>
-<button onclick="likePost(this)">👍 Like (<span>0</span>)</button>
-<br>
-<input placeholder="Write comment..." onkeydown="addComment(event, this)">
-<div class="comments"></div>
-`;
+  post.innerHTML = `
+    <p>${text}</p>
 
-document.getElementById("posts").prepend(post);
-document.getElementById("postInput").value="";
+    <button onclick="likePost(this)">👍 Like (<span>0</span>)</button>
+    <button class="deleteBtn" onclick="deletePost(this)">Delete</button>
+
+    <br><br>
+
+    <input placeholder="Write comment..." onkeydown="addComment(event, this)">
+    <div class="comments"></div>
+  `;
+
+  document.getElementById("posts").prepend(post);
+  document.getElementById("postInput").value="";
 }
 
 function likePost(btn){
-let span = btn.querySelector("span");
-span.innerText = parseInt(span.innerText)+1;
+  let span = btn.querySelector("span");
+  span.innerText = parseInt(span.innerText) + 1;
+}
+
+function deletePost(btn){
+  btn.parentElement.remove();
 }
 
 function addComment(e, input){
-if(e.key==="Enter"){
-let commentBox = input.nextElementSibling;
-let c = document.createElement("p");
-c.innerText = input.value;
-commentBox.appendChild(c);
-input.value="";
+  if(e.key=="Enter"){
+    let commentBox = input.nextElementSibling;
+    let c = document.createElement("p");
+    c.innerText = input.value;
+
+    commentBox.appendChild(c);
+    input.value="";
+  }
 }
-}
+
 </script>
 
 </body>
